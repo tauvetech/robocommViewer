@@ -8,6 +8,8 @@
 #include <qwt_legend.h>
 #include <qwt_plot_curve.h>
 
+#include <QtSerialPort/QSerialPort>
+
 namespace Ui {
 class Dialog;
 }
@@ -24,11 +26,23 @@ private:
     Ui::Dialog *ui;
     QTimer *timer;
     QwtPlotCurve *curve;
+    QwtPlotCurve *curveAccelY;
+    QwtPlotCurve *curveAccelZ;
     QPolygonF points;
-    QPointF pointF;
+    QPolygonF points_Accel_Y;
+    QPolygonF points_Accel_Z;
 
+    QPointF pointF;
+    QPointF pointF_Accel_Y;
+    QPointF pointF_Accel_Z;
+
+    QSerialPort *serialPort;
 private slots:
     void updatePlots();
+    void readData();
+
+    void on_pbConnect_clicked(bool checked);
+    void on_pbRequestData_clicked();
 
 };
 
