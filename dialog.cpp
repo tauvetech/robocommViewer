@@ -30,7 +30,7 @@ connect(serialPort, SIGNAL(readyRead()), this, SLOT(readData()));
    // ui->qwtPlotAccel->setMargin(5);
 
     ui->qwtPlotAccel->setAxisScale( QwtPlot::yLeft, -2.0, 2.0 );
-    //ui->qwtPlotAccel->setAxisScale( QwtPlot::xBottom, 0.0, 100.0 );
+    ui->qwtPlotAccel->setAxisScale( QwtPlot::xBottom, 0.0, 100.0 );
 
     // legend
     QwtLegend *legend = new QwtLegend;
@@ -232,9 +232,9 @@ void Dialog::readData()
 //          qDebug()<<data3.at(1);
      //     qDebug()<<"size of data3" <<data3.size();
 
-          //if (stamps>50)
+          if (stamps>100)
           {
-              ui->qwtPlotAccel->setAxisScale( QwtPlot::xBottom, stamps-1000, stamps+100 );
+              ui->qwtPlotAccel->setAxisScale( QwtPlot::xBottom, stamps-100, stamps );
           }
 
           pointF.setX(stamps);
@@ -253,9 +253,9 @@ void Dialog::readData()
           curveAccelZ->setSamples( points_Accel_Z );
 
 
-          //ui->qwtPlotAccel->repaint();
+          ui->qwtPlotAccel->repaint();
 
-// usleep(1000);
+ usleep(10000);
      serialPort->write("readAccel\n");
 }
 
