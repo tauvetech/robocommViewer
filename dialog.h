@@ -37,6 +37,7 @@ private:
     QPointF pointF_Accel_Z;
 
     QSerialPort *serialPort;
+    bool begin;
 private slots:
     void updatePlots();
     void readData();

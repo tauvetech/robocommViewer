@@ -13,6 +13,8 @@ Dialog::Dialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    begin=false;
+
     //configuration du port serie...
     serialPort = new QSerialPort(this);
     serialPort->setPortName("/dev/ttyACM0");
@@ -158,105 +160,109 @@ void Dialog::on_pbConnect_clicked(bool checked)
 
 void Dialog::readData()
 {
-    static unsigned long stamps=0;
-    stamps++;
+    if(begin)
+    {
+        static unsigned long stamps=0;
+        stamps++;
 
-    double x_axis;
-    double accel_y_axis;
-    double accel_z_axis;
+        double x_axis;
+        double accel_y_axis;
+        double accel_z_axis;
 
-     qDebug()<<"on slot readData!";
-//     QByteArray data = serialPort->readLine();
-//     qDebug()<< "first data:" << data;
-//     qDebug()<<"size of data" << data.size();
-//     QByteArray data2 = serialPort->readLine();
-//     qDebug()<< "second line data2:" <<data2;
-//     qDebug()<<"size of data2" <<data2.size();
-//     QByteArray data3 = serialPort->readLine();
-//     qDebug()<< "third line data3:" <<data3;
-//     qDebug()<<"size of data3" <<data3.size();
+         qDebug()<<"on slot readData!";
+    //     QByteArray data = serialPort->readLine();
+    //     qDebug()<< "first data:" << data;
+    //     qDebug()<<"size of data" << data.size();
+    //     QByteArray data2 = serialPort->readLine();
+    //     qDebug()<< "second line data2:" <<data2;
+    //     qDebug()<<"size of data2" <<data2.size();
+    //     QByteArray data3 = serialPort->readLine();
+    //     qDebug()<< "third line data3:" <<data3;
+    //     qDebug()<<"size of data3" <<data3.size();
 
-          QByteArray data = serialPort->readLine();
-          qDebug()<< data;
-          unsigned long received_value =0;
+              QByteArray data = serialPort->readLine();
+              qDebug()<< data;
+              unsigned long received_value =0;
 
-          for (int i=0; i<data.size();i++)
-          {
-              if(data.at(i) >= '0' && data.at(i) <= '9')
-                  received_value = received_value*16+(data.at(i)-'0');
-              else if(data.at(i) >= 'a' && data.at(i) <= 'f')
-                  received_value = received_value*16+(data.at(i)-'a'+10);
-              else if(data.at(i) >= 'A' && data.at(i) <= 'F')
-                  received_value = received_value*16+(data.at(i)-'A'+10);
-              else if(data.at(i) == '\n')
-                  ;
-          }
-          qDebug()<< "valeur de uLong:" << received_value;
-          x_axis = ((double)received_value-32768.0)/(double)(32768/4);
-          qDebug()<< "valeur de x_axis:" << x_axis;
+              for (int i=0; i<data.size();i++)
+              {
+                  if(data.at(i) >= '0' && data.at(i) <= '9')
+                      received_value = received_value*16+(data.at(i)-'0');
+                  else if(data.at(i) >= 'a' && data.at(i) <= 'f')
+                      received_value = received_value*16+(data.at(i)-'a'+10);
+                  else if(data.at(i) >= 'A' && data.at(i) <= 'F')
+                      received_value = received_value*16+(data.at(i)-'A'+10);
+                  else if(data.at(i) == '\n')
+                      ;
+              }
+              qDebug()<< "valeur de uLong:" << received_value;
+              x_axis = ((double)received_value-32768.0)/(double)(32768/4);
+              qDebug()<< "valeur de x_axis:" << x_axis;
 
-     //     qDebug()<<"size of data" << data.size();
-          QByteArray data2 = serialPort->readLine();
-          qDebug()<< data2;
-          unsigned long received_value2 =0;
-          for (int i=0; i<data2.size();i++)
-          {
-              if(data2.at(i) >= '0' && data2.at(i) <= '9')
-                  received_value2 = received_value2*16+(data2.at(i)-'0');
-              else if(data2.at(i) >= 'a' && data2.at(i) <= 'f')
-                  received_value2 = received_value2*16+(data2.at(i)-'a'+10);
-              else if(data2.at(i) >= 'A' && data2.at(i) <= 'F')
-                  received_value2 = received_value2*16+(data2.at(i)-'A'+10);
-              else if(data2.at(i) == '\n')
-                  ;
-          }
-          accel_y_axis = ((double)received_value2-32768.0)/(double)(32768/4);
-     //     qDebug()<<"size of data2" <<data2.size();
-          QByteArray data3 = serialPort->readLine();
-          qDebug()<<data3;
+         //     qDebug()<<"size of data" << data.size();
+              QByteArray data2 = serialPort->readLine();
+              qDebug()<< data2;
+              unsigned long received_value2 =0;
+              for (int i=0; i<data2.size();i++)
+              {
+                  if(data2.at(i) >= '0' && data2.at(i) <= '9')
+                      received_value2 = received_value2*16+(data2.at(i)-'0');
+                  else if(data2.at(i) >= 'a' && data2.at(i) <= 'f')
+                      received_value2 = received_value2*16+(data2.at(i)-'a'+10);
+                  else if(data2.at(i) >= 'A' && data2.at(i) <= 'F')
+                      received_value2 = received_value2*16+(data2.at(i)-'A'+10);
+                  else if(data2.at(i) == '\n')
+                      ;
+              }
+              accel_y_axis = ((double)received_value2-32768.0)/(double)(32768/4);
+         //     qDebug()<<"size of data2" <<data2.size();
+              QByteArray data3 = serialPort->readLine();
+              qDebug()<<data3;
 
-          unsigned long received_value3 =0;
-          for (int i=0; i<data3.size();i++)
-          {
-              if(data3.at(i) >= '0' && data3.at(i) <= '9')
-                  received_value3 = received_value3*16+(data3.at(i)-'0');
-              else if(data3.at(i) >= 'a' && data3.at(i) <= 'f')
-                  received_value3 = received_value3*16+(data3.at(i)-'a'+10);
-              else if(data3.at(i) >= 'A' && data3.at(i) <= 'F')
-                  received_value3 = received_value3*16+(data3.at(i)-'A'+10);
-              else if(data3.at(i) == '\n')
-                  ;
-          }
-          accel_z_axis = ((double)received_value3-32768.0)/(double)(32768/4);
+              unsigned long received_value3 =0;
+              for (int i=0; i<data3.size();i++)
+              {
+                  if(data3.at(i) >= '0' && data3.at(i) <= '9')
+                      received_value3 = received_value3*16+(data3.at(i)-'0');
+                  else if(data3.at(i) >= 'a' && data3.at(i) <= 'f')
+                      received_value3 = received_value3*16+(data3.at(i)-'a'+10);
+                  else if(data3.at(i) >= 'A' && data3.at(i) <= 'F')
+                      received_value3 = received_value3*16+(data3.at(i)-'A'+10);
+                  else if(data3.at(i) == '\n')
+                      ;
+              }
+              accel_z_axis = ((double)received_value3-32768.0)/(double)(32768/4);
 
-//          qDebug()<<data3.at(1);
-     //     qDebug()<<"size of data3" <<data3.size();
+    //          qDebug()<<data3.at(1);
+         //     qDebug()<<"size of data3" <<data3.size();
 
-          if (stamps>100)
-          {
-              ui->qwtPlotAccel->setAxisScale( QwtPlot::xBottom, stamps-100, stamps );
-          }
+              if (stamps>100)
+              {
+                  ui->qwtPlotAccel->setAxisScale( QwtPlot::xBottom, stamps-100, stamps );
+              }
 
-          pointF.setX(stamps);
-          pointF.setY(x_axis);
-          points.append(pointF);
-          curve->setSamples( points );
+              pointF.setX(stamps);
+              pointF.setY(x_axis);
+              points.append(pointF);
+              curve->setSamples( points );
 
-          pointF_Accel_Y.setX(stamps);
-          pointF_Accel_Y.setY(accel_y_axis);
-          points_Accel_Y.append(pointF_Accel_Y);
-          curveAccelY->setSamples( points_Accel_Y );
+              pointF_Accel_Y.setX(stamps);
+              pointF_Accel_Y.setY(accel_y_axis);
+              points_Accel_Y.append(pointF_Accel_Y);
+              curveAccelY->setSamples( points_Accel_Y );
 
-          pointF_Accel_Z.setX(stamps);
-          pointF_Accel_Z.setY(accel_z_axis);
-          points_Accel_Z.append(pointF_Accel_Z);
-          curveAccelZ->setSamples( points_Accel_Z );
+              pointF_Accel_Z.setX(stamps);
+              pointF_Accel_Z.setY(accel_z_axis);
+              points_Accel_Z.append(pointF_Accel_Z);
+              curveAccelZ->setSamples( points_Accel_Z );
 
 
-          ui->qwtPlotAccel->repaint();
+              ui->qwtPlotAccel->repaint();
 
- usleep(10000);
-     serialPort->write("readAccel\n");
+     usleep(10000);
+         serialPort->write("readAccel\n");
+    }
+
 }
 
 
@@ -266,12 +272,16 @@ void Dialog::on_pbRequestData_clicked()
     serialPort->write("promptOff\n");
     serialPort->write("resetConfig\n");
     serialPort->write("roboveroConfig\n");
+    qDebug()<<"on_pbRequestData_clicked before usleep 1s";
+    usleep(1000000);
+    qDebug()<<"on_pbRequestData_clicked after usleep 1s";
     serialPort->flush();
     serialPort->write("configAccel 1 1 1 1 32 4\n");
     serialPort->write("configMag 1 0 96 19\n");
     serialPort->write("configGyro 1 1 1 1  64 fa\n");
 
     serialPort->write("readAccel\n");
+    begin=true;
 }
 
 
