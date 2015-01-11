@@ -6,28 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>509</height>
+    <width>639</width>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>RobocommViewer</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
-    <widget class="QPushButton" name="pbRequestData">
-     <property name="maximumSize">
-      <size>
-       <width>100</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>requestData</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
+   <item row="3" column="1">
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <spacer name="verticalSpacer">
@@ -44,7 +31,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item row="2" column="1" colspan="2">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QwtPlot" name="qwtPlotAccel">
@@ -96,7 +83,7 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="0">
+   <item row="0" column="1">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Device:</string>
@@ -148,6 +135,40 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbReadAccel">
+        <property name="text">
+         <string>readAccel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbReadMag">
+        <property name="text">
+         <string>readMag</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbReadGyro">
+        <property name="text">
+         <string>readGyro</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbRequestData">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>requestData</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

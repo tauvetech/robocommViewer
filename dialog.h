@@ -80,6 +80,9 @@ private slots:
     void on_pbConnect_clicked(bool checked);
     void on_pbRequestData_clicked();
 
+    void on_pbReadAccel_clicked();
+    void on_pbReadMag_clicked();
+    void on_pbReadGyro_clicked();
 };
 
 #endif // DIALOG_H
