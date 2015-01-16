@@ -694,7 +694,7 @@ void Dialog::readData()
                 ;
         }
         qDebug()<< "valeur de uLong:" << received_valueMagX;
-        mag_x_axis = (((double)received_valueMagX-4096)/(double)(4096/25))*100;
+        mag_x_axis = (((double)received_valueMagX-4096)/(double)((4096/25))*100);
         qDebug()<< "valeur de mag_x_axis:" << mag_x_axis;
 
         //     qDebug()<<"size of data" << data.size();
@@ -867,7 +867,7 @@ void Dialog::on_pbRequestData_clicked()
     qDebug()<<"on_pbRequestData_clicked after usleep 1s";
     serialPort->flush();
     serialPort->write("configAccel 1 1 1 1 32 4\n");
-    serialPort->write("configMag 1 0 96 19\n");
+    serialPort->write("configMag 1 0 0x1D4C 19\n");
     serialPort->write("configGyro 1 1 1 1  64 fa\n");
 
      serialPort->write("readAccel\n");
